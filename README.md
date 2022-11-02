@@ -1,6 +1,6 @@
 # FR_Backend_Exercise
 
-Express,Liquid were used since using a lightweight framework seems better for this assignment. 
+Express,Liquid were used since using lightweight frameworks seems better for this assignment. 
 
 
 ## Dependencies
