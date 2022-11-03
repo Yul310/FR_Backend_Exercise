@@ -20,8 +20,10 @@ app.use(methodOverride("_method"));
 /////////////////////////////////////////////////////
 // Routes
 /////////////////////////////////////////////////////
-app.use("/transaction",TransactionRouter)
 
+app.use("/transaction",TransactionRouter)
+app.use("/", (req, res) => {
+    res.render("homePage.liquid")})
 
 
 //////////////////////////////////////////////

@@ -1,9 +1,24 @@
 {% layout "layout.liquid" %}
 {% block content %}
 
+  <div class="flex w-screen h-screen pb-[300px]">
 
-  <div>
-    <h1>Total points</h1>
-    <h3>:{{total}}</h3>
+    <div class="flex flex-col m-auto min-w-500 max-w-lg border-4 bg-[#FFDF7E] border-[#FF9900] rounded-xl p-4 drop-shadow-[0_15px_15px_rgba(0,0,0,0.25)] px-10 pt-[40px] pb-[40px] justify-center text-center">
+
+      <h1 class="font-black text-xl text-[#2F0D39] pb-[30px]">Test page links</h1>
+      <a href="http://localhost:3000/transaction/add" class="font-bold text-[#2F0D39]">
+        1. Add seed data
+      </a>
+      <br>
+      <a href="http://localhost:3000/transaction/balance" class="font-bold text-[#2F0D39]">
+        2. Check balance
+      </a>
+      <br>
+      <a href="http://localhost:3000/transaction/spend/300" class="font-bold text-[#2F0D39]">
+        3. Spend 300 points
+      </a>
+      <h3>(change the address parameter to change the amount)</h3>
+
+    </div>
   </div>
 {% endblock %}

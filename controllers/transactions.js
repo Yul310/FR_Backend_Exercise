@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 
+//////////////////////////////////////////
+// routes
+//////////////////////////////////////////
+
+
+//-- seeding data --//
 
 router.get("/add", (req, res) => {
     const testUser = {
@@ -14,7 +20,6 @@ router.get("/add", (req, res) => {
             { "payer": "DANNON", "points": 1000, "timestamp": "2022-11-02T14:00:00Z" }
         ]
     }
-
     User.deleteMany({})
         .then(deletedUser => {
             console.log('this is what remove returns', deletedUser)
@@ -32,6 +37,7 @@ router.get("/add", (req, res) => {
 
 
 
+//-- balance route --//
 
 router.get("/balance", (req, res) => {
     User.findOne({})
@@ -48,6 +54,10 @@ router.get("/balance", (req, res) => {
 
 
 
+
+
+//-- spend route --//
+
 router.get("/spend/:id", (req, res) => {
     let amount = Number(req.params.id)
     User.findOne({}).then((user) => {
@@ -62,7 +72,7 @@ router.get("/spend/:id", (req, res) => {
             while (amount > 0) {
                 for (let i = 0; i < transactions.length; i++) {
                     
-                    if (transactions[i].points > 0) {
+                    if (transactions[i].points > 0 && amount > 0) {
                         if (transactions[i].points > amount) {
                             transactions[i].points -= amount
                             spendCall.push({ payer: transactions[i].payer, points: -amount,timestamp:Date.now() })
@@ -86,7 +96,8 @@ router.get("/spend/:id", (req, res) => {
       
         user.transactions = transactions
         user.save()
-        res.json(spendCall)
+        
+        res.json(spendResponse(spendCall))
 
     }).catch((error) => {
         console.log(error);
@@ -100,6 +111,7 @@ router.get("/spend/:id", (req, res) => {
 // helper function
 //////////////////////////////////////////
 
+
 function totalPoints(user) {
     let total = 0
     let transactions = user.transactions
@@ -108,6 +120,8 @@ function totalPoints(user) {
     }
     return total
 }
+
+
 
 function balance(user){
     let transactions = user.transactions
@@ -121,6 +135,16 @@ function balance(user){
     })
     return dictionary
 }
+
+function spendResponse(spendCall){
+    let spendResponse = []
+    spendCall.forEach(spend => {
+        spendResponse.push({payer:spend.payer,points:spend.points})
+    })
+    return spendResponse
+}
+
+
 
 //////////////////////////////////////////
 // Export the Router
