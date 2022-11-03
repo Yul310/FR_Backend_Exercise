@@ -1,0 +1,31 @@
+{
+  "name": "fr_backend_exercise",
+  "version": "1.0.0",
+  "description": "Express,Liquid were used since using lightweight frameworks seems better for this assignment.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon start",
+    "dev": "nodemon server.js"
+  
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yul310/FR_Backend_Exercise.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yul310/FR_Backend_Exercise/issues"
+  },
+  "homepage": "https://github.com/Yul310/FR_Backend_Exercise#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "liquid-express-views": "^1.0.8",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.7.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20"
+  }
+}

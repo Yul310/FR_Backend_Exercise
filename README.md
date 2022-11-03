@@ -7,6 +7,7 @@ Express,Liquid were used since using lightweight frameworks seems better for thi
 install =>
 - npm init
 - npm install express
+- npm i mongoose
 - npm install liquid-express-views
 - npm i nodemon
 
