@@ -37,20 +37,9 @@ router.get("/balance", (req, res) => {
     User.findOne({})
         .then((user) => {
             let total = totalPoints(user)
-            let transactions = user.transactions
-            let dictionary = {}
-             transactions.forEach(transaction => {
-                if (dictionary[transaction.payer]) {
-                    dictionary[transaction.payer] += transaction.points
-                }else{
-                    dictionary[transaction.payer] = transaction.points
-                }
-                
-             })
-
-
-            balance = [{ Total_Points: total }, dictionary]
-            res.json(balance)
+            let dictionary = balance(user)
+            totalBalance = [{ Total_Points: total }, dictionary]
+            res.json(totalBalance)
         })
         .catch((error) => {
             console.log(error)
@@ -64,7 +53,7 @@ router.get("/spend/:id", (req, res) => {
     User.findOne({}).then((user) => {
 
         let transactions = user.transactions
-
+        let spendCall = []
         if (totalPoints(user) < amount) {
             res.json({ message: "Not enough points" })
             return false
@@ -72,27 +61,33 @@ router.get("/spend/:id", (req, res) => {
         else {
             while (amount > 0) {
                 for (let i = 0; i < transactions.length; i++) {
-                    console.log(i)
+                    
                     if (transactions[i].points > 0) {
                         if (transactions[i].points > amount) {
                             transactions[i].points -= amount
+                            spendCall.push({ payer: transactions[i].payer, points: -amount,timestamp:Date.now() })
                             amount = 0
+                            break        
                         } else {
                             amount -= transactions[i].points
+                            spendCall.push({ payer: transactions[i].payer, points: -transactions[i].points,timestamp:Date.now() })
                             transactions[i].points = 0
                         }
                        
                     }else{
-                        console.log("zero next",transactions)
-                      
-                    }
-                    
+                        console.log("points=0,next")
+                    }                  
                 }
             }
+            spendCall.forEach(spend => {
+                user.transactions.push(spend)
+            })
         }
+      
         user.transactions = transactions
         user.save()
-        res.redirect("/transaction/balance")
+        res.json(spendCall)
+
     }).catch((error) => {
         console.log(error);
     })
@@ -112,6 +107,19 @@ function totalPoints(user) {
         total += transactions[i].points
     }
     return total
+}
+
+function balance(user){
+    let transactions = user.transactions
+    let dictionary = {}
+    transactions.forEach(transaction => {
+       if (dictionary[transaction.payer]) {
+           dictionary[transaction.payer] += transaction.points
+       }else{
+           dictionary[transaction.payer] = transaction.points
+       }             
+    })
+    return dictionary
 }
 
 //////////////////////////////////////////
