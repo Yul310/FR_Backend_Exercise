@@ -14,8 +14,8 @@ to start =>
 - nodemon start
 
 to test =>
-Go to http://localhost:3000/
-Click the links to test and don't forget to add seed data first.
+- Go to http://localhost:3000/
+- Click the links to test and don't forget to add seed data first.
 
 ## Screenshots
 ![Test Page](img/TestHome.png)
