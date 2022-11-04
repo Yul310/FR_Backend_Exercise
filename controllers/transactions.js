@@ -90,6 +90,7 @@ router.get("/spend/:id", (req, res) => {
                     }
                     else {
                         console.log("points=0,next")
+                        continue
                     }                  
                 }
             }
