@@ -70,6 +70,7 @@ router.get("/spend/:id", (req, res) => {
         else {
             totalBalance = balance(user)
             for (let i = 0; i < transactions.length; i++) {
+                console.log(amount)
 
                 if (transactions[i].points > 0 && transactions[i].used === false) {
                     if (amount <= transactions[i].points && totalBalance[transactions[i].payer] >= amount) {
@@ -91,7 +92,11 @@ router.get("/spend/:id", (req, res) => {
                 else if (transactions[i].points < 0 && transactions[i].used === false) {
                     amount -= (transactions[i].points)
                     spendCall.forEach(spend => {
-                        spend.payer === transactions[i].payer ? spend.points -= transactions[i].points : null
+                        if (spend.payer === transactions[i].payer) {
+                            spend.points -= transactions[i].points
+                            transactions[i].used = true
+                        }
+                       
                     })
 
 
@@ -100,7 +105,7 @@ router.get("/spend/:id", (req, res) => {
 
                 else {
                     console.log("next")
-                    break
+                  continue
                 }
             }
             spendCall.forEach(spend => {
