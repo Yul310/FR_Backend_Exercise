@@ -71,7 +71,7 @@ router.get("/spend/:id", (req, res) => {
             while (amount > 0) {
                 for (let i = 0; i < transactions.length; i++) {
                     
-                    if (transactions[i].used === false) {
+                    if (transactions[i].used === false && transactions[i].points > 0) {
 
                         if (transactions[i].points > amount) {
                             if(transactions[i].points ==0 ){
@@ -79,23 +79,27 @@ router.get("/spend/:id", (req, res) => {
                             }                 
                             spendCall.push({ payer: transactions[i].payer, points: -amount,timestamp:Date.now(), used:true })
                             amount = 0
+                            break
                                  
                         } 
-                        else if (amount >= transactions[i].points ) {
+                        else if (amount >= transactions[i].points) {
+                            console.log("here")
                             amount -= transactions[i].points
                             transactions[i].used = true
                             spendCall.push({ payer: transactions[i].payer, points: -transactions[i].points,timestamp:Date.now(), used:true })
+                            
                         }
                        
                     }
                     else {
                         console.log("points=0,next")
-                        continue
                     }                  
                 }
             }
             spendCall.forEach(spend => {
-                user.transactions.push(spend)
+                if(spend.points < 0){
+                    user.transactions.push(spend)
+                }
             })
         }
       
@@ -144,7 +148,9 @@ function balance(user){
 function spendResponse(spendCall){
     let spendResponse = []
     spendCall.forEach(spend => {
-        spendResponse.push({payer:spend.payer,points:spend.points})
+        if(spend.points < 0){
+            spendResponse.push({payer:spend.payer, points:spend.points})
+        }
     })
     return spendResponse
 }
