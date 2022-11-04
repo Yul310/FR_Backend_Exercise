@@ -72,31 +72,43 @@ router.get("/spend/:id", (req, res) => {
             for (let i = 0; i < transactions.length; i++) {
                 console.log(amount)
 
-                if (transactions[i].points > 0 && transactions[i].used === false) {
+                if (transactions[i].points > 0 && transactions[i].used == false) {
+                    console.log("herhererere", totalBalance[transactions[i].payer])
+                  
                     if (amount <= transactions[i].points && totalBalance[transactions[i].payer] >= amount) {
-                        totalBalance[transactions[i].payer] -= amount
+
                         spendCall.push({ payer: transactions[i].payer, points: -amount, timestamp: Date.now(), used: true })
                         if (transactions[i].points === 0) {
                             transactions[i].used = true
                         }
                         amount = 0
                     }
-                    else {
-                        totalBalance[transactions[i].payer] = 0
-                        amount -= transactions[i].points
-                        spendCall.push({ payer: transactions[i].payer, points: -transactions[i].points, timestamp: Date.now(), used: true })
-                        transactions[i].used = true
+                    else if(transactions[i].used == false ) {
+                        if(totalBalance[transactions[i].payer]<transactions[i].points){
+                            let tempo = totalBalance[transactions[i].payer]
+                            console.log("tt",transactions[i].points)
+                            amount -= tempo
+                            spendCall.push({ payer: transactions[i].payer, points: -tempo, timestamp: Date.now(), used: true })
+                            transactions[i].used = true
+                        }else{
+                            let tempo = transactions[i].points
+                            console.log("tt",transactions[i].points)
+                            amount -= tempo
+                            spendCall.push({ payer: transactions[i].payer, points: -tempo, timestamp: Date.now(), used: true })
+                            transactions[i].used = true
+                        }
+                       
                     }
 
                 }
-                else if (transactions[i].points < 0 && transactions[i].used === false) {
+                else if (transactions[i].points < 0 && transactions[i].used == false) {
                     amount -= (transactions[i].points)
                     spendCall.forEach(spend => {
                         if (spend.payer === transactions[i].payer) {
                             spend.points -= transactions[i].points
                             transactions[i].used = true
                         }
-                       
+
                     })
 
 
@@ -105,7 +117,7 @@ router.get("/spend/:id", (req, res) => {
 
                 else {
                     console.log("next")
-                  continue
+                    continue
                 }
             }
             spendCall.forEach(spend => {
