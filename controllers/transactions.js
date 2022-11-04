@@ -83,15 +83,14 @@ router.get("/spend/:id", (req, res) => {
                         } else if (amount >= transactions[i].points ) {
                             amount -= transactions[i].points
                             transactions[i].used = true
-                            spendCall.push({ payer: transactions[i].payer, points: -transactions[i].points,timestamp:Date.now() })
+                            spendCall.push({ payer: transactions[i].payer, points: -transactions[i].points,timestamp:Date.now(), used:true })
                             
                         }
                        
                     }
                     else if (transactions[i].points < 0 && amount > 0 && transactions[i].used === false) {
                         transactions[i].used = true
-                        console.log("points=0,next")
-                        
+                        // console.log("points=0,next")
                     }                  
                 }
             }
