@@ -16,7 +16,8 @@ const { Schema, model } = mongoose;
 const transactionSchema  = new Schema({
     payer:{type:String},
     points:{type:Number},
-    timestamp:Date
+    timestamp:Date,
+    used:{type:Boolean,default:false}
     })
 
 // make Product schema
