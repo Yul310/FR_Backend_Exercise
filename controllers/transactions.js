@@ -70,11 +70,9 @@ router.get("/spend/:id", (req, res) => {
         else {
             totalBalance = balance(user)
             for (let i = 0; i < transactions.length; i++) {
-                console.log(amount)
 
                 if (transactions[i].points > 0 && transactions[i].used == false) {
-                    console.log("herhererere", totalBalance[transactions[i].payer])
-                  
+
                     if (amount <= transactions[i].points && totalBalance[transactions[i].payer] >= amount) {
 
                         spendCall.push({ payer: transactions[i].payer, points: -amount, timestamp: Date.now(), used: true })
@@ -83,21 +81,19 @@ router.get("/spend/:id", (req, res) => {
                         }
                         amount = 0
                     }
-                    else if(transactions[i].used == false ) {
-                        if(totalBalance[transactions[i].payer]<transactions[i].points){
+                    else if (transactions[i].used == false) {
+                        if (totalBalance[transactions[i].payer] < transactions[i].points) {
                             let tempo = totalBalance[transactions[i].payer]
-                            console.log("tt",transactions[i].points)
                             amount -= tempo
                             spendCall.push({ payer: transactions[i].payer, points: -tempo, timestamp: Date.now(), used: true })
                             transactions[i].used = true
-                        }else{
+                        } else {
                             let tempo = transactions[i].points
-                            console.log("tt",transactions[i].points)
                             amount -= tempo
                             spendCall.push({ payer: transactions[i].payer, points: -tempo, timestamp: Date.now(), used: true })
                             transactions[i].used = true
                         }
-                       
+
                     }
 
                 }
@@ -110,9 +106,6 @@ router.get("/spend/:id", (req, res) => {
                         }
 
                     })
-
-
-
                 }
 
                 else {
