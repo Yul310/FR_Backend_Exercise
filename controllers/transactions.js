@@ -71,26 +71,25 @@ router.get("/spend/:id", (req, res) => {
             while (amount > 0) {
                 for (let i = 0; i < transactions.length; i++) {
                     
-                    if (transactions[i].points > 0 && amount > 0 && transactions[i].used === false) {
+                    if (transactions[i].used === false) {
+
                         if (transactions[i].points > amount) {
                             if(transactions[i].points ==0 ){
                                 transactions[i].used = true
-                            }
-                    
+                            }                 
                             spendCall.push({ payer: transactions[i].payer, points: -amount,timestamp:Date.now(), used:true })
                             amount = 0
-                            break        
-                        } else if (amount >= transactions[i].points ) {
+                                 
+                        } 
+                        else if (amount >= transactions[i].points ) {
                             amount -= transactions[i].points
                             transactions[i].used = true
                             spendCall.push({ payer: transactions[i].payer, points: -transactions[i].points,timestamp:Date.now(), used:true })
-                            
                         }
                        
                     }
-                    else if (transactions[i].points < 0 && amount > 0 && transactions[i].used === false) {
-                        transactions[i].used = true
-                        // console.log("points=0,next")
+                    else {
+                        console.log("points=0,next")
                     }                  
                 }
             }
