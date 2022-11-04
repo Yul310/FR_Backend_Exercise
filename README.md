@@ -18,7 +18,7 @@ to test =>
 - Click the links to test and don't forget to add seed data first.
 
 ## Screenshots
-![Test Page Home](FR_Backend_Exercise/img/TestHomeHome.png)
+![TestHomeHome](FR_Backend_Exercise/img/TestHomeHome.png)
 
 To start a test, please open locahost.
 => http://localhost:3000/
