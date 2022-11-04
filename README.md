@@ -19,6 +19,7 @@ to test =>
 
 ## Screenshots
 ![TestHomeHome](FR_Backend_Exercise/img/TestHomeHome.png)
+![TestHomeHome](/Users/SHuh/Documents/SE/take-home-exercise/FR_Backend_Exercise/FR_Backend_Exercise/img/TestHomeHome.png)
 
 To start a test, please open locahost.
 => http://localhost:3000/
