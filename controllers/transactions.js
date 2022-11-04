@@ -99,23 +99,19 @@ router.get("/spend/:id", (req, res) => {
                     else{
                         console.log("next")
                         break
-                        
-                    
-                    
                 }
             }
                spendCall.forEach(spend => {
+                if(spend.points !=0)
+               { 
                 user.transactions.push(spend)
-                
+                }
             })
             console.log(spendCall)
-           
             user.save()
             res.json(spendResponse(spendCall))
-            // spendCall =[]
+        
         }
-      
-      
 
     }).catch((error) => {
         console.log(error);
@@ -157,10 +153,10 @@ function balance(user){
 function spendResponse(spendCall){
     let spendResponse = []
     spendCall.forEach(spend => {
-        // if(spend.points < 0){
-        //     spendResponse.push({payer:spend.payer, points:spend.points})
-        // }
-        spendResponse.push({payer:spend.payer, points:spend.points})
+        if(spend.points < 0){
+            spendResponse.push({payer:spend.payer, points:spend.points})
+        }
+        // spendResponse.push({payer:spend.payer, points:spend.points})
     })
     return spendResponse
 }
