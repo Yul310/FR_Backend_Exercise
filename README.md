@@ -26,13 +26,8 @@ To start a test, please open locahost.
 please click the links.
 1. adding seed data
 2. check total balance and remained points per payer.
-3. spend points. If you want to change the amount of pts, please change the param.
-   - for example,
-   - spend 300 : http://localhost:3000/transaction/spend/300)
-   - spend 1500 : http://localhost:3000/transaction/spend/1500)
-   - spend 99999 : http://localhost:3000/transaction/spend/99999)
-
-
+3. spend points. 
+  
 ## Technologies used
 - express 
 - MongoDB
